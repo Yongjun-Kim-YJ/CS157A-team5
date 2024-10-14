@@ -4,9 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class RegisterDao {
-	private String dburl = "jdbc:mysql://localhost:3306/Huang";
+	private String dburl = "jdbc:mysql://localhost:3306/CS157a-team5";
 	private String dbuname = "root";
-	private String dbpassword = "ennesilhe";
+	private String dbpassword = "password";
 	private String dbdriver = "com.mysql.jdbc.Driver";
 	public void loadDriver(String dbDriver)
 	{
