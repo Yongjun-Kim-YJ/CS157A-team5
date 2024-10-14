@@ -4,7 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class RegisterDao {
-	private String dburl = "jdbc:mysql://localhost:3306/CS157a-team5";
+	private String dburl = "jdbc:mysql://localhost:3310/CS157a-team5";
 	private String dbuname = "root";
 	private String dbpassword = "password";
 	private String dbdriver = "com.mysql.jdbc.Driver";
@@ -23,6 +23,7 @@ public class RegisterDao {
 			con = DriverManager.getConnection(dburl, dbuname, dbpassword);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("BAD!");
 			e.printStackTrace();
 		}
 		return con;
