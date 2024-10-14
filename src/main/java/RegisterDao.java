@@ -23,7 +23,6 @@ public class RegisterDao {
 			con = DriverManager.getConnection(dburl, dbuname, dbpassword);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("BAD!");
 			e.printStackTrace();
 		}
 		return con;
