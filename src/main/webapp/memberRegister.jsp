@@ -87,10 +87,6 @@
                 <td><input type="email" id="email" name="email" placeholder="Enter your email" required></td>
             </tr>
             <tr>
-                <td><label for="phone">Phone:</label></td>
-                <td><input type="tel" id="phone" name="phone" placeholder="Enter phone number" pattern="[0-9]{10}" required></td>
-            </tr>
-            <tr>
                 <td></td>
                 <td><input type="submit" value="Register"></td>
             </tr>

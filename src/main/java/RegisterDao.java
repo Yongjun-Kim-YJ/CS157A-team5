@@ -30,14 +30,13 @@ public class RegisterDao {
 	public String insert(Member member) {
 		loadDriver(dbdriver);
 		Connection con = getConnection();
-		String sql = "insert into member values(?,?,?,?)";
+		String sql = "insert into member values(?,?,?)";
 		String result="Data Entered Successfully";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, member.getUname());
 			ps.setString(2, member.getPassword());
 			ps.setString(3, member.getEmail());
-			ps.setNString(4, member.getPhone());
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
