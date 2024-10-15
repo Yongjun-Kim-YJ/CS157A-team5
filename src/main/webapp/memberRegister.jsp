@@ -51,7 +51,7 @@
     <h2 id="form-title">Sign In</h2>
     
     <!-- Sign-In Form -->
-    <form action="welcome.jsp" method="post" id="login-form">
+<!--     <form method="post" id="login-form">
         <table>
             <tr>
                 <td><label for="login-email">Email:</label></td>
@@ -70,9 +70,9 @@
             <span>Don't have an account?</span>
             <button type="button" onclick="toggleForms()">Register</button>
         </div>
-    </form>
+    </form> -->
     <!-- Registration Form (Hidden by default) -->
-    <form action="welcome.jsp" method="post" id="register-form" class="hidden">
+    <form action="Register"  method="post" id="register-form">
         <table>
             <tr>
                 <td><label for="uname">User Name:</label></td>
@@ -88,7 +88,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><input type="submit" value="Register"></td>
+                <td><input type="submit" value="register"></td>
             </tr>
         </table>
         <div class="toggle-container">
