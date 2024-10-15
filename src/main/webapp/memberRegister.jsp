@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Sign In / Register</title>
+    <link href=
+"https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+          rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -51,15 +54,15 @@
     <h2 id="form-title">Sign In</h2>
     
     <!-- Sign-In Form -->
-<!--     <form method="post" id="login-form">
+	<form method="post" id="login-form" action="Login">
         <table>
             <tr>
-                <td><label for="login-email">Email:</label></td>
-                <td><input type="text" id="login-email" name="email" placeholder="Enter your email" required></td>
+                <td><label for="login-email">Username:</label></td>
+                <td><input type="text" id="login-username" name="login-username" placeholder="Enter your username" required></td>
             </tr>
             <tr>
                 <td><label for="login-password">Password:</label></td>
-                <td><input type="password" id="login-password" name="password" placeholder="Enter password" required></td>
+                <td><input type="password" id="login-password" name="login-password" placeholder="Enter password" required></td>
             </tr>
             <tr>
                 <td></td>
@@ -70,13 +73,13 @@
             <span>Don't have an account?</span>
             <button type="button" onclick="toggleForms()">Register</button>
         </div>
-    </form> -->
+	</form>
     <!-- Registration Form (Hidden by default) -->
-    <form action="Register"  method="post" id="register-form">
+    <form action="Register"  method="post" id="register-form" class="hidden">
         <table>
             <tr>
-                <td><label for="uname">User Name:</label></td>
-                <td><input type="text" id="uname" name="uname" placeholder="Enter username" required></td>
+                <td><label for="uname">Username:</label></td>
+                <td><input type="text" id="username" name="username" placeholder="Enter username" required></td>
             </tr>
             <tr>
                 <td><label for="password">Password:</label></td>
@@ -88,7 +91,7 @@
             </tr>
             <tr>
                 <td></td>
-                <td><input type="submit" value="register"></td>
+                <td><input type="submit" value="Register"></td>
             </tr>
         </table>
         <div class="toggle-container">

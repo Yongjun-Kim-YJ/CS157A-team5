@@ -3,7 +3,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-public class RegisterDao {
+public class UserAuthDao {
 	private String dburl = "jdbc:mysql://localhost:3306/CS157a-team5";
 	private String dbuname = "root";
 	private String dbpassword = "password";
@@ -27,11 +27,10 @@ public class RegisterDao {
 		}
 		return con;
 	}
-	public String insert(Member member) {
+	public boolean insert(Member member) {
 		loadDriver(dbdriver);
 		Connection con = getConnection();
 		String sql = "insert into member values(?,?,?)";
-		String result="Data Entered Successfully";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, member.getUname());
@@ -40,19 +39,18 @@ public class RegisterDao {
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			result="Data Not Entered Successfully";
 			e.printStackTrace();
+			return false;
 		}
-		return result;
+		return true;
 	}
 	   public boolean validate(String username, String password) {
 	        boolean status = false;
 	        String sql = "SELECT * FROM member WHERE uname=? AND password=?";
-
 	        try (Connection con = DriverManager.getConnection(dburl, dbuname, dbpassword);
 	             PreparedStatement ps = con.prepareStatement(sql)) {
-	            ps.setString(1, username);
-	            ps.setString(2, password);
+	        	ps.setString(1, username);
+				ps.setString(2, password);
 	            ResultSet rs = ps.executeQuery();
 	            status = rs.next(); // Returns true if a record is found
 	        } catch (Exception e) {
