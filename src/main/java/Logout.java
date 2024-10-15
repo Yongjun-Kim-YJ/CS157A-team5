@@ -6,16 +6,16 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 /**
- * Servlet implementation class Register
+ * Servlet implementation class Logout
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/Logout")
+public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public Logout() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,21 +30,12 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username=request.getParameter("username");
-		String password=request.getParameter("password");
-		String email=request.getParameter("email");
-		Member member=new Member(username, password, email);
-		UserAuthDao rdao=new UserAuthDao();
-		boolean result=rdao.insert(member);
-		if (result) {
-			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
-			response.sendRedirect("homepage.jsp");
-		}
-		else {
-			response.sendRedirect("memberRegister.jsp");
-		}
-		
+		HttpSession session = request.getSession(false);
+		if (session != null) {
+            session.invalidate();
+        }
+
+        response.sendRedirect("memberRegister.jsp");
 		
 	}
 }
