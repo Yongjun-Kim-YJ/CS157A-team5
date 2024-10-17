@@ -30,7 +30,7 @@ public class UserAuthDao {
 	public boolean insert(Member member) {
 		loadDriver(dbdriver);
 		Connection con = getConnection();
-		String sql = "insert into member values(?,?,?)";
+		String sql = "insert into users (username, password, email) values(?,?,?)";
 		try {
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, member.getUname());
@@ -46,7 +46,7 @@ public class UserAuthDao {
 	}
 	   public boolean validate(String username, String password) {
 	        boolean status = false;
-	        String sql = "SELECT * FROM member WHERE uname=? AND password=?";
+	        String sql = "SELECT * FROM users WHERE username=? AND password=?";
 	        try (Connection con = DriverManager.getConnection(dburl, dbuname, dbpassword);
 	             PreparedStatement ps = con.prepareStatement(sql)) {
 	        	ps.setString(1, username);
