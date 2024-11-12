@@ -11,6 +11,19 @@
           rel="stylesheet">
 </head>
 <body>
+    <!-- Bar on top for profile button -->
+    <nav class="bg-gray-800 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <span class="text-white text-lg font-bold">Course Prerequisite Guide</span>
+            <form action="profile.jsp" method="get">
+                <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
+                    Profile
+                </button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
     <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
         <div class="text-center">
