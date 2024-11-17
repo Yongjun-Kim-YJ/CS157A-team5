@@ -30,15 +30,16 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username=request.getParameter("username");
-		String password=request.getParameter("password");
+		String studentID =request.getParameter("studentID");
+		String name=request.getParameter("name");
 		String email=request.getParameter("email");
-		Member member=new Member(username, password, email);
+		String password=request.getParameter("password");
+		Member member=new Member(Integer.parseInt(studentID), name, email, password);
 		UserAuthDao rdao=new UserAuthDao();
 		boolean result=rdao.insert(member);
 		if (result) {
 			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
+			session.setAttribute("Student ID", studentID);
 			response.sendRedirect("homepage.jsp");
 		}
 		else {

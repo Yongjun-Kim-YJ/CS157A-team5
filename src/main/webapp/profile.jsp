@@ -16,7 +16,7 @@
                     Profile Page
                 </h1>
 
-                <h3 class="text-2xl">Username: <%= session.getAttribute("username") %></h3>
+                <h3 class="text-2xl">Name: <%= session.getAttribute("name") %></h3>
 
                 <h3 class="text-2xl">Email: <%= session.getAttribute("email") %></h3>
 
