@@ -17,31 +17,34 @@ public class Login extends HttpServlet {
      */
     public Login() {
         super();
-        // TODO Auto-generated constructor stub
     }
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String password=request.getParameter("login-password");
-		String username=request.getParameter("login-username");
-		UserAuthDao rdao=new UserAuthDao();
-		boolean result=rdao.validate(username, password);
-		if (result) {
-			HttpSession session = request.getSession();
-			session.setAttribute("username", username);
-			response.sendRedirect("homepage.jsp");
-		}
-		else {		
-			response.sendRedirect("memberRegister.jsp");
-		}
-		
-	}
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.getWriter().append("Served at: ").append(request.getContextPath());
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String password = request.getParameter("login-password");
+        String studentID = request.getParameter("login-studentID");
+        System.out.println("password: " + password + "\nstudent id: " + studentID);
+
+        // Check credentials
+        UserAuthDao rdao = new UserAuthDao();
+        boolean result = rdao.validate(Integer.parseInt(studentID), password);
+        
+        if (result) {
+            // Login and create session if successful
+            HttpSession session = request.getSession();
+            String[] userDetails = rdao.getUserDetails(Integer.parseInt(studentID));
+
+            session.setAttribute("studentID", studentID);
+            session.setAttribute("name", userDetails[0]);
+            session.setAttribute("email", userDetails[1]);
+
+            response.sendRedirect("homepage.jsp");
+        } else {
+            // Don't do anything if credentials are wrong
+            response.sendRedirect("memberRegister.jsp");
+        }
+    }
 }
