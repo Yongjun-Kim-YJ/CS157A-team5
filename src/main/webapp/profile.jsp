@@ -33,7 +33,7 @@
                     <label for="newPassword" class="block text-lg mt-4">New Password:</label>
                     <input type="password" id="newPassword" name="newPassword" class="mt-2 px-4 py-2 border border-gray-300 rounded-md" required />
 
-                    <button type="submit" class="mt-4 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Update Password</button>
+                    <button type="submit" class="mx-8 px-6 py-2 bg-blue-500 text-white font-bold rounded hover:bg-blue-600">Update Password</button>
                 </form>
                 
                 <form action="Logout" method="post" class="mt-4">

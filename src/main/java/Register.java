@@ -39,7 +39,9 @@ public class Register extends HttpServlet {
 		boolean result=rdao.insert(member);
 		if (result) {
 			HttpSession session = request.getSession();
-			session.setAttribute("Student ID", studentID);
+			session.setAttribute("studentID", studentID);
+			session.setAttribute("name", name);
+            session.setAttribute("email", email);
 			response.sendRedirect("homepage.jsp");
 		}
 		else {
