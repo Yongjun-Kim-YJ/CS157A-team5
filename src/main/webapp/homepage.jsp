@@ -53,7 +53,7 @@
                     try {
                         String dburl = "jdbc:mysql://localhost:3306/cs157a-team5";
                         String dbuname = "root";
-                        String dbpassword = "ennesilhe";
+                        String dbpassword = "password";
 
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         con = DriverManager.getConnection(dburl, dbuname, dbpassword);
@@ -145,7 +145,7 @@
     </div>
     <div id="container" style="width: 100%; height: 400px; background: white"></div>
     <script>
-      // Create a graphology graph
+      // Test node graph
       const graph = new graphology.Graph();
       graph.addNode("1", { label: "Node 1", x: 0, y:0, size: 20, color: "blue" });
       graph.addNode("2", { label: "Node 2", x: 1, y:2, size: 20, color: "red" });
