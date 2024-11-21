@@ -45,6 +45,42 @@ public class UserAuthDao {
         return true;
     }
     
+    public boolean changePassword(int studentID, String currentPassword, String newPassword) {
+    	loadDriver(dbdriver);
+    	Connection con = getConnection();
+        String update_sql = "UPDATE Users SET password=? WHERE studentID=?";
+        String select_sql = "SELECT password FROM Users WHERE studentID=?";
+        try {
+        	PreparedStatement ps = con.prepareStatement(select_sql);
+        	ps.setInt(1, studentID);
+        	ResultSet rs = ps.executeQuery();
+        	if (rs.next()) {
+        		String cur = rs.getString("password");
+        		if (!cur.equals(currentPassword)) {
+        			return false;
+        		}
+        	}
+        	else {
+        		return false;
+        	}
+        	ps = con.prepareStatement(update_sql);
+        	ps.setInt(2, studentID);
+        	ps.setString(1, newPassword);
+        	int rowsUpdated = ps.executeUpdate();
+        	if (rowsUpdated == 0) {
+        		return false;
+        	}
+        	
+        }
+        catch(SQLException e) {
+        	e.printStackTrace();
+        	return false;
+        }
+    	
+    	return true;
+   
+    }
+    
     public String[] getUserDetails(int studentID) {
         String[] userDetails = new String[2];
         String sql = "SELECT name, email FROM Users WHERE studentID=?";
