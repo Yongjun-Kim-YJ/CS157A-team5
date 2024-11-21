@@ -1,53 +1,54 @@
-import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import java.io.IOException;
+
 /**
- * Servlet implementation class Register
+ * Servlet implementation class ChangePassword
  */
-@WebServlet("/Register")
-public class Register extends HttpServlet {
+@WebServlet("/ChangePassword")
+public class ChangePassword extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Register() {
+    public ChangePassword() {
         super();
         // TODO Auto-generated constructor stub
     }
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String studentID =request.getParameter("studentID");
-		String name=request.getParameter("name");
-		String email=request.getParameter("email");
-		String password=request.getParameter("password");
-		Member member=new Member(Integer.parseInt(studentID), name, email, password);
-		UserAuthDao rdao=new UserAuthDao();
-		boolean result=rdao.insert(member);
-		if (result) {
-			HttpSession session = request.getSession();
-			session.setAttribute("studentID", studentID);
-			session.setAttribute("name", name);
-            session.setAttribute("email", email);
-			response.sendRedirect("homepage.jsp");
+		String currentPassword = request.getParameter("currentPassword");
+		String newPassword = request.getParameter("newPassword");
+		HttpSession session = request.getSession();
+		int studentID = 0;
+		if (session.getAttribute("studentID") != null) {
+			studentID = Integer.parseInt((String) session.getAttribute("studentID"));
 		}
 		else {
 			response.sendRedirect("memberRegister.jsp");
+			return;
 		}
-		
-		
+		UserAuthDao passdao=new UserAuthDao();
+		boolean result = passdao.changePassword(studentID, currentPassword, newPassword);
+		if (!result) {
+			response.sendRedirect("memberRegister.jsp");
+		}
+		response.sendRedirect("homepage.jsp");
 	}
+
 }
