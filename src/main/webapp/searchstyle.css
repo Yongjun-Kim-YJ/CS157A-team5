@@ -1,0 +1,35 @@
+body {
+	font-family: "Calibri";
+	display: flex;
+	background-color: GhostWhite;
+	padding: 0;
+	margin: 0;
+}
+
+table {
+	margin: 15px;
+	padding-left: 15px;
+	table-layout: auto;
+}
+
+th {
+	font-weight: bold;
+	font-size: 18px;
+	padding: 12px;
+	text-align: left;
+}
+
+td {
+	min-width: 100px;
+}
+
+.searchbar {
+	background-color: MidnightBlue;
+	border: 2px solid Navy;
+	color: white;
+}
+
+.tablehead {
+	font-style: italic;
+	color: LightSlateGray;
+}
