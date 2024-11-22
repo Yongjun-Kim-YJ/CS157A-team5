@@ -7,7 +7,7 @@
 <head>
     <meta charset="ISO-8859-1">
     <title>Homepage</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/2.4.0/sigma.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sigma.js/2.4.0/sigma.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/graphology/0.25.4/graphology.umd.min.js"></script>
     <link href=
 "https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
@@ -42,29 +42,6 @@
     </div>
 
     <div class="bg-gray-100 py-8">
-<!-- 	    <input  -->
-<!-- 					    id="searchbar"  -->
-<!-- 					    onkeyup="search_course()"  -->
-<!-- 					    type="text"  -->
-<!-- 					    name="search"  -->
-<!-- 					    placeholder="Search Courses"  -->
-<!-- 					    class=" -->
-<!-- 					    	block -->
-<!-- 					        mb-4 -->
-<!-- 					        px-4 -->
-<!-- 					        py-2 -->
-<!-- 					        w-1/4 -->
-<!-- 					        border  -->
-<!-- 					        border-gray-300  -->
-<!-- 					        rounded-lg  -->
-<!-- 					        focus:outline-none  -->
-<!-- 					        focus:ring-2  -->
-<!-- 					        focus:ring-blue-500  -->
-<!-- 					        focus:border-blue-500  -->
-<!-- 					        text-gray-700  -->
-<!-- 					        placeholder-gray-400  -->
-<!-- 					        shadow-sm -->
-<!-- 					    "> -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-4">
             <!-- Course List -->
             <div class="w-1/4 h-96 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
@@ -167,19 +144,123 @@
             </div>
         </div>
     </div>
+
+    <!-- Graph Container -->
     <div id="container" style="width: 100%; height: 400px; background: white"></div>
+
+    <!-- Script to generate the graph -->
     <script>
-      // Test node graph
       const graph = new graphology.Graph();
-      graph.addNode("1", { label: "Node 1", x: 0, y:0, size: 20, color: "blue" });
-      graph.addNode("2", { label: "Node 2", x: 1, y:2, size: 20, color: "red" });
-      graph.addNode("3", { label: "Node 3", x: 2, y:1, size: 20, color: "green" });
-      graph.addNode("4", { label: "Node 4", x: 2, y:0, size: 20, color: "grey" });
-      graph.addNode("5", { label: "Node 5", x: 3, y:3, size: 20, color: "grey" });
-      graph.addEdge("1", "2", { size: 5, color: "purple" });
-      graph.addEdge("2", "3", { size: 5, color: "purple" });
-      graph.addEdge("3", "4", { size: 5, color: "purple" });
-      graph.addEdge("3", "5", { size: 5, color: "purple" });
+
+      <% 
+        // Fetch courses from the database
+
+        try {
+            String dburl = "jdbc:mysql://localhost:3306/cs157a-team5";
+            String dbuname = "root";
+            String dbpassword = "password";
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection(dburl, dbuname, dbpassword);
+
+            String query = "SELECT courseID FROM Courses";
+            ps = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = ps.executeQuery();
+
+            // Variables for positioning
+            int nodeCount = 0;
+            int totalNodes = 0;
+            // First, count the total number of nodes
+            while (rs.next()) {
+                totalNodes++;
+            }
+            // Reset the cursor to the beginning
+            rs.beforeFirst();
+
+            double angleIncrement = (2 * Math.PI) / totalNodes;
+            double radius = 100;
+
+            while (rs.next()) {
+                String courseID = rs.getString("courseID");
+
+                // Calculate positions
+                double angle = nodeCount * angleIncrement;
+                double x = radius * Math.cos(angle);
+                double y = radius * Math.sin(angle);
+      %>
+                // Add nodes to the graph
+                graph.addNode("<%= courseID %>", { 
+                    label: "<%= courseID %>", 
+                    x: <%= x %>, 
+                    y: <%= y %>, 
+                    size: 20, 
+                    color: "lightgray" 
+                });
+      <%
+                nodeCount++;
+            }
+            
+         	
+        } catch (Exception e) {
+            e.printStackTrace();
+      %>
+            // Handle errors if any
+      <%
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (con != null) con.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+      %>
+      graph.addEdge("CS116A", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS116B", "CS116A", { size: 5, color: "purple" });
+      graph.addEdge("CS122", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS123A", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS123B", "CS123A", { size: 5, color: "purple" });
+      graph.addEdge("CS131", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS133", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS134", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS134", "CS151", { size: 5, color: "purple" });
+      graph.addEdge("CS136", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS144", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS146", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS147", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS149", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS149", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS151", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS152", "CS151", { size: 5, color: "purple" });
+      graph.addEdge("CS153", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS153", "CS154", { size: 5, color: "purple" });
+      graph.addEdge("CS153", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS154", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS155", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS156", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS157A", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS157B", "CS157A", { size: 5, color: "purple" });
+      graph.addEdge("CS157C", "CS157A", { size: 5, color: "purple" });
+      graph.addEdge("CS158A", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS158A", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS158B", "CS158A", { size: 5, color: "purple" });
+      graph.addEdge("CS159", "CS146", { size: 5, color: "purple" });
+      //Error occurs if include this line
+      //graph.addEdge("CS160", "CS100W", { size: 5, color: "purple" });
+      graph.addEdge("CS160", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS160", "CS151", { size: 5, color: "purple" });
+      graph.addEdge("CS161", "CS160", { size: 5, color: "purple" });
+      graph.addEdge("CS166", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS166", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS168", "CS166", { size: 5, color: "purple" });
+      graph.addEdge("CS171", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS174", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS175", "CS46A", { size: 5, color: "purple" });
+      graph.addEdge("CS175", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS176", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS46B", "CS46A", { size: 5, color: "purple" });
+      graph.addEdge("CS47", "CS46B", { size: 5, color: "purple" });
 
       // Instantiate sigma.js and render the graph
       const sigmaInstance = new Sigma(graph, document.getElementById("container"));
