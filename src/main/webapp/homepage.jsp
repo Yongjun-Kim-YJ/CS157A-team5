@@ -199,6 +199,8 @@
       <%
                 nodeCount++;
             }
+            
+         	
         } catch (Exception e) {
             e.printStackTrace();
       %>
@@ -214,6 +216,51 @@
             }
         }
       %>
+      graph.addEdge("CS116A", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS116B", "CS116A", { size: 5, color: "purple" });
+      graph.addEdge("CS122", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS123A", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS123B", "CS123A", { size: 5, color: "purple" });
+      graph.addEdge("CS131", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS133", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS134", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS134", "CS151", { size: 5, color: "purple" });
+      graph.addEdge("CS136", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS144", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS146", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS147", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS149", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS149", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS151", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS152", "CS151", { size: 5, color: "purple" });
+      graph.addEdge("CS153", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS153", "CS154", { size: 5, color: "purple" });
+      graph.addEdge("CS153", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS154", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS155", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS156", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS157A", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS157B", "CS157A", { size: 5, color: "purple" });
+      graph.addEdge("CS157C", "CS157A", { size: 5, color: "purple" });
+      graph.addEdge("CS158A", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS158A", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS158B", "CS158A", { size: 5, color: "purple" });
+      graph.addEdge("CS159", "CS146", { size: 5, color: "purple" });
+      //Error occurs if include this line
+      //graph.addEdge("CS160", "CS100W", { size: 5, color: "purple" });
+      graph.addEdge("CS160", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS160", "CS151", { size: 5, color: "purple" });
+      graph.addEdge("CS161", "CS160", { size: 5, color: "purple" });
+      graph.addEdge("CS166", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS166", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS168", "CS166", { size: 5, color: "purple" });
+      graph.addEdge("CS171", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS174", "CS46B", { size: 5, color: "purple" });
+      graph.addEdge("CS175", "CS46A", { size: 5, color: "purple" });
+      graph.addEdge("CS175", "CS47", { size: 5, color: "purple" });
+      graph.addEdge("CS176", "CS146", { size: 5, color: "purple" });
+      graph.addEdge("CS46B", "CS46A", { size: 5, color: "purple" });
+      graph.addEdge("CS47", "CS46B", { size: 5, color: "purple" });
 
       // Instantiate sigma.js and render the graph
       const sigmaInstance = new Sigma(graph, document.getElementById("container"));
