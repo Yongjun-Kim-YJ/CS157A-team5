@@ -23,10 +23,15 @@ td {
 	min-width: 100px;
 }
 
+form {
+	width: 100%;
+}
+
 .searchbar {
 	background-color: MidnightBlue;
 	border: 2px solid Navy;
 	color: white;
+	padding: 15px;
 }
 
 .tablehead {
