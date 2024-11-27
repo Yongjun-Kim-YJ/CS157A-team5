@@ -10,15 +10,11 @@
 <body>
 	<form action="SearchList" method="post">
 		<nav class="searchbar" style="width: 100%">
-			<table>
-				<tr>
-					<td>Search for course:</td>
-					<td><input type="text" name="keyword" placeholder="keyword"></td>
-					<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
-					<input type="hidden" name="allAddedCourses" value="<%String addedCourse = (String)request.getAttribute("allAddedCourses");%>">
-					<td><input type="submit" value="&#128269"></td>
-				</tr>
-			</table>
+			Search for course:
+			<input type="text" name="keyword" placeholder="keyword">
+			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
+			<input type="hidden" name="allAddedCourses" value="<%String addedCourse = (String)request.getAttribute("allAddedCourses");%>">
+			<input type="submit" value="&#128269">
 		</nav>
 		<table>
 			<%
@@ -37,8 +33,7 @@
 				if (results.isBeforeFirst()) {
 					out.print("<tr class=\"tablehead\"><td>Course ID</td><td>Course Name</td><td>Credits</td><td>Description</td><td>Prerequisites</td></tr>");
 				} else {
-					//Temporary formatting, fix later
-					out.print("<tr><td></td><td></td><td></td><td>No courses found!" + "</td><td>General Kenobi. Years ago you served my father in the Clone Wars. Now he begs you to help him in his struggle against the Empire. I regret that I am unable to present my father's request to you in person, but my ship has fallen under attack, and I'm afraid my mission to bring you to Alderaan has failed. I have placed information vital to the survival of the Rebellion into the memory systems of this R2 unit. My father will know how to retrieve it. You must see this droid safely delivered to him on Alderaan. This is our most desperate hour. Help me, Obi-Wan Kenobi. You're my only hope.</td></tr>");
+					out.print("<tr><td></td><td></td><td></td><td>No courses found!</td><td></td></tr>");
 				}
 				while (results.next()) {
 					String course = results.getString(1);
