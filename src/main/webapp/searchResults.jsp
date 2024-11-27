@@ -9,7 +9,7 @@
 </head>
 <body>
 	<form action="SearchList" method="post">
-		<nav class="searchbar" style="width: 100%">
+		<nav class="searchbar">
 			Search for course:
 			<input type="text" name="keyword" placeholder="keyword">
 			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
