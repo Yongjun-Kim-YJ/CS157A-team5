@@ -1,4 +1,5 @@
 import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -40,6 +41,9 @@ public class Login extends HttpServlet {
             session.setAttribute("studentID", studentID);
             session.setAttribute("name", userDetails[0]);
             session.setAttribute("email", userDetails[1]);
+            session.setAttribute("major", userDetails[2]);
+            session.setAttribute("majorName", userDetails[3]);
+            session.setAttribute("majorCredits", userDetails[4]);
 
             response.sendRedirect("homepage.jsp");
         } else {
