@@ -10,13 +10,9 @@
 <body>
 	<form action="CourseList" method="post">
 		<nav class="searchbar">
-			<table>
-				<tr>
-					<td>Search for course:</td>
-					<td><input type="text" name="keyword" placeholder="keyword"></td>
-					<td><input type="submit" value="&#128269"></td>
-				</tr>
-			</table>
+			Search for course:
+			<input type="text" name="keyword" placeholder="keyword">
+			<input type="submit" value="&#128269">
 		</nav>
 		<table>
 			<%
