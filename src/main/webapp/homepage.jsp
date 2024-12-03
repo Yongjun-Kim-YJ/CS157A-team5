@@ -151,7 +151,7 @@
     <!-- Script to generate the graph -->
     <script>
       const graph = new graphology.Graph();
-
+      let prevNode = 0;
       <% 
         // Fetch courses from the database
 
@@ -261,9 +261,31 @@
       graph.addEdge("CS176", "CS146", { size: 5, color: "purple" });
       graph.addEdge("CS46B", "CS46A", { size: 5, color: "purple" });
       graph.addEdge("CS47", "CS46B", { size: 5, color: "purple" });
-
+	
       // Instantiate sigma.js and render the graph
       const sigmaInstance = new Sigma(graph, document.getElementById("container"));
+      
+      sigmaInstance.on("clickNode", (event) => {
+    	  const nodeId = event.node;
+    	  if (nodeId !== prevNode) {
+    	  console.log("Mouse entered node:", nodeId);
+    	  // Example: Highlight the node
+    	  // Get the node object
+			const node = sigmaInstance.getGraph().getNodeAttributes(nodeId);
+			
+			if (node) {
+				node.color = 'red';
+				if (prevNode != 0) {
+					const cur_node = sigmaInstance.getGraph().getNodeAttributes(prevNode);
+					cur_node.color = 'lightgray';
+				}
+				prevNode = nodeId;
+		    	sigmaInstance.refresh();
+			} else {
+			  console.log("Node not found.");
+			}
+    	  }
+    	});
     </script>
 </body>
 </html>
