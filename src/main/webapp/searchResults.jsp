@@ -9,6 +9,13 @@
 </head>
 <body>
 	<form action="SearchList" method="post">
+	<nav class="titlehead">
+		<a href="homepage.jsp" class="homebutton">Course Prerequisite Guide Home</a>
+		Required credits for your major
+		<%String majorName = (String)session.getAttribute("majorName");
+		String majorCredits = (String)session.getAttribute("majorCredits");
+		out.print(" " + majorName + " is " + majorCredits + " credits");%>
+	</nav>
 		<nav class="searchbar">
 			Search for course:
 			<input type="text" name="keyword" placeholder="keyword">
@@ -22,14 +29,24 @@
 			String dbuname="root";
 			String dbpassword="password";
 			try {
-				String keyword = (String)request.getAttribute("keyword");
 				java.sql.Connection con = DriverManager.getConnection(dburl + "?autoReconnect=true&useSSL=false", dbuname, dbpassword);
-				String sql = "SELECT * FROM courses WHERE courseID LIKE ? OR courseName LIKE ? OR description LIKE ?";
+				String sql = "SELECT courseID FROM usercourses WHERE studentID = ?";
 				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, (String)session.getAttribute("studentID"));
+				ResultSet results = ps.executeQuery();
+				String userCourses = "";
+				while (results.next()) {
+					userCourses = userCourses + results.getString("courseID");
+				}
+				String keyword = (String)request.getAttribute("keyword");
+				con = DriverManager.getConnection(dburl + "?autoReconnect=true&useSSL=false", dbuname, dbpassword);
+				sql = "SELECT * FROM courses WHERE courseID LIKE ? OR courseName LIKE ? OR description LIKE ?";
+				ps = con.prepareStatement(sql);
 				ps.setString(1, "%" + keyword + "%");
 				ps.setString(2, "%" + keyword + "%");
 				ps.setString(3, "%" + keyword + "%");
-				ResultSet results = ps.executeQuery();
+				results = ps.executeQuery();
+				out.print("<p class=\"searchline\">Search results for " + keyword + "</p>");
 				if (results.isBeforeFirst()) {
 					out.print("<tr class=\"tablehead\"><td>Course ID</td><td>Course Name</td><td>Credits</td><td>Description</td><td>Prerequisites</td></tr>");
 				} else {
@@ -41,7 +58,6 @@
 						+ results.getInt(3) + "</td><td>" + results.getString(4) + "</td>");
 					String courseID = (String)request.getAttribute("addedCourse");
 					String addedNot = (String)request.getAttribute("studentID");
-					addedCourse = (String)request.getAttribute("allAddedCourses");
 					String prereqSQL = "SELECT prerequisiteID FROM prerequisites WHERE courseID LIKE ?";
 					PreparedStatement pre = con.prepareStatement(prereqSQL);
 					pre.setString(1, "%" + course + "%");
@@ -55,18 +71,16 @@
 						}
 						out.print("</td>");
 					}
-					if ((courseID != null && courseID.equals(course)) || (addedCourse != null && addedCourse.contains(course))) {
+					if (userCourses.contains(course)) {
 						out.print("<td>Added!</td></tr>");
 					} else {
-						addedCourse = addedCourse + courseID;
 					%>
 						<td>
 							<form action="SearchList" method="post">
 							<input type="submit" value="Add course!">
 							<input type="hidden" name="addedCourse" value="<%=course%>">
-							<input type="hidden" name="studentID" value="<%= session.getAttribute("studentID") %>">
+							<input type="hidden" name="studentID" value="<%=(String)session.getAttribute("studentID") %>">
 							<input type="hidden" name="prevSearch" value="<%=keyword%>">
-							<input type="hidden" name="allAddedCourses" value="<%=addedCourse%>">
 							</form>
 						</td></tr>
 						<%
@@ -82,8 +96,7 @@
 		</table>
 		<form action="SearchList" method="post">
 			<input type="submit" name="goBack" value="New search in all courses">
-			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
-			<input type="hidden" name="allAddedCourses" value="<%=(String)request.getAttribute("allAddedCourses")%>">		
+			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">		
 		</form>
 	</form>
 </body>

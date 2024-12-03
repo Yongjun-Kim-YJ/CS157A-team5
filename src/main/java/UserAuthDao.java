@@ -4,8 +4,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 public class UserAuthDao {
-	private String dburl = "jdbc:mysql://localhost:3306/CS157a-team5";
-	private String dbuname = "root";    private String dbpassword = "password";
+	private String dburl = "jdbc:mysql://localhost:3306/cs157ateam5";
+	private String dbuname = "root";
+	private String dbpassword = "password";
     private String dbdriver = "com.mysql.cj.jdbc.Driver";
 
     public void loadDriver(String dbDriver) {
@@ -30,7 +31,7 @@ public class UserAuthDao {
     public boolean insert(Member member) {
         loadDriver(dbdriver);
         Connection con = getConnection();
-        String sql = "INSERT INTO Users (studentID, name, email, password, major_id) VALUES (?, ?, ?, ?, '')";
+        String sql = "INSERT INTO users (studentID, name, email, password, major_id) VALUES (?, ?, ?, ?, '')";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setLong(1, member.getStudentID());
@@ -48,8 +49,8 @@ public class UserAuthDao {
     public boolean changePassword(int studentID, String currentPassword, String newPassword) {
     	loadDriver(dbdriver);
     	Connection con = getConnection();
-        String update_sql = "UPDATE Users SET password=? WHERE studentID=?";
-        String select_sql = "SELECT password FROM Users WHERE studentID=?";
+        String update_sql = "UPDATE users SET password=? WHERE studentID=?";
+        String select_sql = "SELECT password FROM users WHERE studentID=?";
         try {
         	PreparedStatement ps = con.prepareStatement(select_sql);
         	ps.setInt(1, studentID);
@@ -82,8 +83,8 @@ public class UserAuthDao {
     }
     
     public String[] getUserDetails(int studentID) {
-        String[] userDetails = new String[2];
-        String sql = "SELECT name, email FROM Users WHERE studentID=?";
+        String[] userDetails = new String[5];
+        String sql = "SELECT name, email, major_id FROM users WHERE studentID=?";
         
         try (Connection con = DriverManager.getConnection(dburl, dbuname, dbpassword);
              PreparedStatement ps = con.prepareStatement(sql)) {
@@ -93,7 +94,21 @@ public class UserAuthDao {
             if (rs.next()) {
                 userDetails[0] = rs.getString("name");
                 userDetails[1] = rs.getString("email");
+                userDetails[2] = rs.getString("major_id");
             }
+            
+            // Added getting major from users table
+            // Gets the total number of required credits for major and unabbreviated form of major 
+            sql = "SELECT majorName, requiredCredits FROM majors WHERE majorID=?";
+            PreparedStatement p = con.prepareStatement(sql);
+            p.setString(1, userDetails[2]);
+            rs = p.executeQuery();
+            
+            if (rs.next()) {
+            	userDetails[3] = rs.getString("majorName");
+            	userDetails[4] = rs.getInt("requiredCredits") + "";
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -103,7 +118,7 @@ public class UserAuthDao {
 
     public boolean validate(int studentID, String password) {
         boolean status = false;
-        String sql = "SELECT * FROM Users WHERE studentID=? AND password=?";
+        String sql = "SELECT * FROM users WHERE studentID=? AND password=?";
         try (Connection con = DriverManager.getConnection(dburl, dbuname, dbpassword);
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setInt(1, studentID);
