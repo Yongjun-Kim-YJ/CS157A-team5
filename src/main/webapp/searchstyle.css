@@ -47,6 +47,10 @@ form {
 	right: 15%;
 }
 
+form {
+	width: 100%;
+}
+
 .searchbar {
 	background-color: MidnightBlue;
 	font-size: 20px;

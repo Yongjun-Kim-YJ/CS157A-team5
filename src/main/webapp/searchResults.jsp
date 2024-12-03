@@ -20,6 +20,7 @@
 			Search for course:
 			<input type="text" name="keyword" placeholder="keyword">
 			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
+			<input type="hidden" name="allAddedCourses" value="<%String addedCourse = (String)request.getAttribute("allAddedCourses");%>">
 			<input type="submit" value="&#128269">
 		</nav>
 		<table>
