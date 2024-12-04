@@ -42,6 +42,29 @@
     </div>
 
     <div class="bg-gray-100 py-8">
+    <!-- 	    <input  -->
+<!-- 					    id="searchbar"  -->
+<!-- 					    onkeyup="search_course()"  -->
+<!-- 					    type="text"  -->
+<!-- 					    name="search"  -->
+<!-- 					    placeholder="Search Courses"  -->
+<!-- 					    class=" -->
+<!-- 					    	block -->
+<!-- 					        mb-4 -->
+<!-- 					        px-4 -->
+<!-- 					        py-2 -->
+<!-- 					        w-1/4 -->
+<!-- 					        border  -->
+<!-- 					        border-gray-300  -->
+<!-- 					        rounded-lg  -->
+<!-- 					        focus:outline-none  -->
+<!-- 					        focus:ring-2  -->
+<!-- 					        focus:ring-blue-500  -->
+<!-- 					        focus:border-blue-500  -->
+<!-- 					        text-gray-700  -->
+<!-- 					        placeholder-gray-400  -->
+<!-- 					        shadow-sm -->
+<!-- 					    "> -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-4">
             <!-- Course List -->
             <div class="w-1/4 h-96 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
