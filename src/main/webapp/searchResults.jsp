@@ -9,16 +9,19 @@
 </head>
 <body>
 	<form action="SearchList" method="post">
-		<nav class="searchbar" style="width: 100%">
-			<table>
-				<tr>
-					<td>Search for course:</td>
-					<td><input type="text" name="keyword" placeholder="keyword"></td>
-					<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
-					<input type="hidden" name="allAddedCourses" value="<%String addedCourse = (String)request.getAttribute("allAddedCourses");%>">
-					<td><input type="submit" value="&#128269"></td>
-				</tr>
-			</table>
+	<nav class="titlehead">
+		<a href="homepage.jsp" class="homebutton">Course Prerequisite Guide Home</a>
+		Required credits for your major
+		<%String majorName = (String)session.getAttribute("majorName");
+		String majorCredits = (String)session.getAttribute("majorCredits");
+		out.print(" " + majorName + " is " + majorCredits + " credits");%>
+	</nav>
+		<nav class="searchbar">
+			Search for course:
+			<input type="text" name="keyword" placeholder="keyword">
+			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
+			<input type="hidden" name="allAddedCourses" value="<%String addedCourse = (String)request.getAttribute("allAddedCourses");%>">
+			<input type="submit" value="&#128269">
 		</nav>
 		<table>
 			<%
@@ -26,19 +29,28 @@
 			String dbuname="root";
 			String dbpassword="password";
 			try {
-				String keyword = (String)request.getAttribute("keyword");
 				java.sql.Connection con = DriverManager.getConnection(dburl + "?autoReconnect=true&useSSL=false", dbuname, dbpassword);
-				String sql = "SELECT * FROM courses WHERE courseID LIKE ? OR courseName LIKE ? OR description LIKE ?";
+				String sql = "SELECT courseID FROM usercourses WHERE studentID = ?";
 				PreparedStatement ps = con.prepareStatement(sql);
+				ps.setString(1, (String)session.getAttribute("studentID"));
+				ResultSet results = ps.executeQuery();
+				String userCourses = "";
+				while (results.next()) {
+					userCourses = userCourses + results.getString("courseID");
+				}
+				String keyword = (String)request.getAttribute("keyword");
+				con = DriverManager.getConnection(dburl + "?autoReconnect=true&useSSL=false", dbuname, dbpassword);
+				sql = "SELECT * FROM courses WHERE courseID LIKE ? OR courseName LIKE ? OR description LIKE ?";
+				ps = con.prepareStatement(sql);
 				ps.setString(1, "%" + keyword + "%");
 				ps.setString(2, "%" + keyword + "%");
 				ps.setString(3, "%" + keyword + "%");
-				ResultSet results = ps.executeQuery();
+				results = ps.executeQuery();
+				out.print("<p class=\"searchline\">Search results for " + keyword + "</p>");
 				if (results.isBeforeFirst()) {
 					out.print("<tr class=\"tablehead\"><td>Course ID</td><td>Course Name</td><td>Credits</td><td>Description</td><td>Prerequisites</td></tr>");
 				} else {
-					//Temporary formatting, fix later
-					out.print("<tr><td></td><td></td><td></td><td>No courses found!" + "</td><td>General Kenobi. Years ago you served my father in the Clone Wars. Now he begs you to help him in his struggle against the Empire. I regret that I am unable to present my father's request to you in person, but my ship has fallen under attack, and I'm afraid my mission to bring you to Alderaan has failed. I have placed information vital to the survival of the Rebellion into the memory systems of this R2 unit. My father will know how to retrieve it. You must see this droid safely delivered to him on Alderaan. This is our most desperate hour. Help me, Obi-Wan Kenobi. You're my only hope.</td></tr>");
+					out.print("<tr><td></td><td></td><td></td><td>No courses found!</td><td></td></tr>");
 				}
 				while (results.next()) {
 					String course = results.getString(1);
@@ -46,7 +58,6 @@
 						+ results.getInt(3) + "</td><td>" + results.getString(4) + "</td>");
 					String courseID = (String)request.getAttribute("addedCourse");
 					String addedNot = (String)request.getAttribute("studentID");
-					addedCourse = (String)request.getAttribute("allAddedCourses");
 					String prereqSQL = "SELECT prerequisiteID FROM prerequisites WHERE courseID LIKE ?";
 					PreparedStatement pre = con.prepareStatement(prereqSQL);
 					pre.setString(1, "%" + course + "%");
@@ -60,18 +71,16 @@
 						}
 						out.print("</td>");
 					}
-					if ((courseID != null && courseID.equals(course)) || (addedCourse != null && addedCourse.contains(course))) {
+					if (userCourses.contains(course)) {
 						out.print("<td>Added!</td></tr>");
 					} else {
-						addedCourse = addedCourse + courseID;
 					%>
 						<td>
 							<form action="SearchList" method="post">
 							<input type="submit" value="Add course!">
 							<input type="hidden" name="addedCourse" value="<%=course%>">
-							<input type="hidden" name="studentID" value="<%= session.getAttribute("studentID") %>">
+							<input type="hidden" name="studentID" value="<%=(String)session.getAttribute("studentID") %>">
 							<input type="hidden" name="prevSearch" value="<%=keyword%>">
-							<input type="hidden" name="allAddedCourses" value="<%=addedCourse%>">
 							</form>
 						</td></tr>
 						<%
@@ -87,8 +96,7 @@
 		</table>
 		<form action="SearchList" method="post">
 			<input type="submit" name="goBack" value="New search in all courses">
-			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
-			<input type="hidden" name="allAddedCourses" value="<%=(String)request.getAttribute("allAddedCourses")%>">		
+			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">		
 		</form>
 	</form>
 </body>

@@ -36,11 +36,6 @@ public class CourseList extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SearchDao sDao = new SearchDao();
 		
-		String allCourses = request.getParameter("allAddedCourses");
-		if (allCourses != null)
-			request.setAttribute("allAddedCourses", allCourses);
-		
-		
 		String keyword = request.getParameter("keyword");
 		if (keyword != null && !keyword.isBlank()) {
 			keyword = keyword.trim();
@@ -50,11 +45,9 @@ public class CourseList extends HttpServlet {
 		} else {
 		
 		String addCourse = request.getParameter("addedCourse");
-		String addCourseID = request.getParameter("studentID");
-		boolean updateAdd = sDao.addCourse(addCourse, addCourseID);
+		String student = request.getParameter("studentID");
+		sDao.addCourse(addCourse, student);
 		
-		request.setAttribute("addedCourse", addCourse);
-		request.setAttribute("studentID", updateAdd + "");
 		RequestDispatcher rd = request.getRequestDispatcher("courseSearch.jsp");
 		rd.forward(request, response);
 		}
