@@ -15,21 +15,32 @@
 </head>
 <body>
     <!-- Top navigation bar -->
-    <nav class="bg-gray-800 p-4">
+    <nav class="bg-blue-500 p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="text-white text-lg font-bold">Course Prerequisite Guide</span>
+        <div class="flex space-x-4 ml-auto">
+            <!-- Grad Progress Button -->
+            <form action="gradProgress.jsp" method="get">
+                <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
+                    Graduation Progress
+                </button>
+            </form>
+            <!-- Search and Add Button -->
             <form action="courseSearch.jsp" method="get">
                 <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
                     Search and Add
                 </button>
             </form>
+            <!-- Profile Button -->
             <form action="profile.jsp" method="get">
                 <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
                     Profile
                 </button>
             </form>
         </div>
-    </nav>
+    </div>
+</nav>
+
 
     <!-- Welcome Section -->
     <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
@@ -57,14 +68,14 @@
                     PreparedStatement ps = null;
                     ResultSet rs = null;
                     try {
-                        String dburl = "jdbc:mysql://localhost:3306/cs157ateam5";
+                        String dburl = "jdbc:mysql://localhost:3306/cs157a-team5";
                         String dbuname = "root";
                         String dbpassword = "password";
 
                         Class.forName("com.mysql.cj.jdbc.Driver");
                         con = DriverManager.getConnection(dburl, dbuname, dbpassword);
 
-                        String query = "SELECT courseID, courseName FROM courses";
+                        String query = "SELECT courseID, courseName FROM Courses";
                         ps = con.prepareStatement(query);
                         rs = ps.executeQuery();
 
@@ -107,9 +118,9 @@
                         PreparedStatement detailPs = null;
                         ResultSet detailRs = null;
                         try {
-                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs157ateam5", "root", "password");
+                            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs157a-team5", "root", "password");
 
-                            String detailQuery = "SELECT description FROM courses WHERE courseName=?";
+                            String detailQuery = "SELECT description FROM Courses WHERE courseName=?";
                             detailPs = con.prepareStatement(detailQuery);
                             detailPs.setString(1, selectedCourse);
                             detailRs = detailPs.executeQuery();
@@ -161,14 +172,14 @@
         // Fetch courses from the database
 
         try {
-            String dburl = "jdbc:mysql://localhost:3306/cs157ateam5";
+            String dburl = "jdbc:mysql://localhost:3306/cs157a-team5";
             String dbuname = "root";
             String dbpassword = "password";
 
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(dburl, dbuname, dbpassword);
 
-            String query = "SELECT courseID FROM courses";
+            String query = "SELECT courseID FROM Courses";
             ps = con.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = ps.executeQuery();
 
@@ -272,3 +283,4 @@
     </script>
 </body>
 </html>
+
