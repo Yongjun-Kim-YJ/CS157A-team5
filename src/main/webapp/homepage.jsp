@@ -151,7 +151,7 @@
     </div>
 
     <!-- Graph Container -->
-    <div id="container" style="width: 100%; height: 400px; background: white"></div>
+    <div id="container" style="width: 100%; height: 400px; background:white"></div>
 
     <!-- Script to generate the graph -->
     <script>
