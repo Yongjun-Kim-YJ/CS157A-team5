@@ -11,15 +11,32 @@
 	<form action="CourseList" method="post">
 	<nav class="titlehead">
 		<a href="homepage.jsp" class="homebutton">Course Prerequisite Guide Home</a>
+	</nav>
+	<div class="majorcredits">
 		Required credits for your major
 		<%String majorName = (String)session.getAttribute("majorName");
 		String majorCredits = (String)session.getAttribute("majorCredits");
 		out.print(" " + majorName + " is " + majorCredits + " credits");%>
-	</nav>
+	</div>
 	<nav class="searchbar">
+		<p>
 			Search for course:
 			<input type="text" name="keyword" placeholder="keyword">
 			<input type="submit" value="&#128269">
+		</p>
+		<p>
+			Search by GE Core area:
+			<select id="area" name="area">
+				<option value="">Select area</option>
+				<option value="A">A</option>
+				<option value="B">B</option>
+				<option value="C">C</option>
+				<option value="D">D</option>
+				<option value="E">E</option>
+				<option value="F">F</option>
+			</select>
+			<input type="submit" value="&#128269">
+		</p>
 	</nav>
 		<table>
 			<%
@@ -79,9 +96,9 @@
 					%>
 						<td>
 							<form action="CourseList" method="post">
-							<input type="submit" value="Add course!">
+							<input class="addbtn" type="submit" value="Add course!">
 							<input type="hidden" name="addedCourse" value="<%=course%>">
-							<input type="hidden" name="studentID" value="<%= (String)session.getAttribute("studentID")%>">
+							<input type="hidden" name="studentID" value="<%= session.getAttribute("studentID") %>">
 							</form>
 						</td></tr>
 						<%

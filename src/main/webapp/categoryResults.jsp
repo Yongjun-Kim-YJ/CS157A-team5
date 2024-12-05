@@ -22,7 +22,7 @@
 		<p>
 			Search for course:
 			<input type="text" name="keyword" placeholder="keyword">
-			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">
+			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("area")%>">
 			<input type="submit" value="&#128269">
 		</p>
 		<p>
@@ -54,19 +54,17 @@
 				while (results.next()) {
 					userCourses = userCourses + results.getString("courseID");
 				}
-				String keyword = (String)request.getAttribute("keyword");
+				String area = (String)request.getAttribute("area");
 				con = DriverManager.getConnection(dburl + "?autoReconnect=true&useSSL=false", dbuname, dbpassword);
-				sql = "SELECT * FROM COURSES WHERE courseID LIKE ? OR courseName LIKE ? OR description LIKE ?";
+				sql = "SELECT * FROM ge WHERE geArea LIKE ?";
 				ps = con.prepareStatement(sql);
-				ps.setString(1, "%" + keyword + "%");
-				ps.setString(2, "%" + keyword + "%");
-				ps.setString(3, "%" + keyword + "%");
+				ps.setString(1, "%" + area + "%");
 				results = ps.executeQuery();
+				out.print("<p class=\"searchline\">Courses in GE core category " + area + "</p>");
 				if (results.isBeforeFirst()) {
-					out.print("<p class=\"searchline\">Search results for \"" + keyword + "\"</p>");
-					out.print("<tr class=\"tablehead\"><td>Course ID</td><td>Course Name</td><td>Credits</td><td>Description</td><td>Prerequisites</td></tr>");
+					out.print("<tr class=\"tablehead\"><td>Course ID</td><td>Course Name</td><td>Credits</td><td>Description</td><td>Prerequisites</td><td>GE Area</td></tr>");
 				} else {
-					out.print("<p class=\"searchline\">No courses found for \"" + keyword + "\"</p>");
+					out.print("<p class=\"searchline\">No courses found for \"" + area + "\"</p>");
 				}
 				while (results.next()) {
 					String course = results.getString(1);
@@ -87,6 +85,7 @@
 						}
 						out.print("</td>");
 					}
+					out.print("<td>" + results.getString(5) + "</td>");
 					if (userCourses.contains(course)) {
 						out.print("<td>Added!</td></tr>");
 					} else {
@@ -96,7 +95,7 @@
 							<input class="addbtn" type="submit" value="Add course!">
 							<input type="hidden" name="addedCourse" value="<%=course%>">
 							<input type="hidden" name="studentID" value="<%=(String)session.getAttribute("studentID") %>">
-							<input type="hidden" name="prevSearch" value="<%=keyword%>">
+							<input type="hidden" name="prevSearch" value="<%=area%>">
 							</form>
 						</td></tr>
 						<%
@@ -113,7 +112,7 @@
 		<div class="backbtndiv">
 		<form action="SearchList" method="post">
 			<input class="backbtn" type="submit" name="goBack" value="New search in all courses">
-			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("keyword")%>">		
+			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("area")%>">
 		</form>
 		</div>
 	</form>
