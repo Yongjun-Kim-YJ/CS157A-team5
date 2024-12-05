@@ -248,40 +248,61 @@
            
            preqRs = preqPs.executeQuery();
            HashSet<String> found = new HashSet<>();
+           HashMap<String, Integer> nodeLevels = new HashMap<>();
+           HashMap<Integer, Integer> levelPositions = new HashMap<>();
            HashMap<String, HashSet<String>> edges = new HashMap<>();
+           int xStep = 50;
+           int yStep = 50;
            while (preqRs.next()) {
-        	   String courseId = preqRs.getString("courseId");
-        	   String preqId = preqRs.getString("prerequisiteID");
-        	   if (found.add(courseId)) {
-        		   out.println("graph.addNode(\"" + courseId + "\", {");
-				out.println("    label: \"" + courseId + "\",");
-				out.println("    x: " + xCoord + ",");
-				out.println("    y: " + yCoord + ",");
-				out.println("    size: 10,");
-				out.println("    color: \"#ff0000\"");
-				out.println("});");
-        	   }
-        	   if (found.add(preqId)) {
-        		   out.println("graph.addNode(\"" + preqId + "\", {");
-					out.println("    label: \"" + preqId + "\",");
-					out.println("    x: " + (xCoord - step / 2) + ",");
-					out.println("    y: " + (yCoord + step) + ",");
-					out.println("    size: 10,");
-					out.println("    color: \"#ff0000\"");
-					out.println("});");
-        	   }
-        	   edges.putIfAbsent(courseId, new HashSet<>());
-        	   if (!edges.get(courseId).contains(preqId)) {
+        	    String courseId = preqRs.getString("courseId");
+        	    String preqId = preqRs.getString("prerequisiteID");
+
+        	    int courseLevel = nodeLevels.getOrDefault(courseId, 0);
+        	    int preqLevel = courseLevel + 1;
+
+        	    if (found.add(courseId)) {
+        	        int position = levelPositions.getOrDefault(courseLevel, 0);
+        	        xCoord = position * xStep;
+        	        yCoord = courseLevel * yStep;
+        	        
+        	        out.println("graph.addNode(\"" + courseId + "\", {");
+        	        out.println("    label: \"" + courseId + "\",");
+        	        out.println("    x: " + xCoord + ",");
+        	        out.println("    y: " + yCoord + ",");
+        	        out.println("    size: 10,");
+        	        out.println("    color: \"#ff0000\"");
+        	        out.println("});");
+        	        
+        	        levelPositions.put(courseLevel, position + 1);
+        	    }
+
+        	    if (found.add(preqId)) {
+        	        int position = levelPositions.getOrDefault(preqLevel, 0);
+        	        xCoord = position * xStep;
+        	        yCoord = preqLevel * yStep;
+
+        	        out.println("graph.addNode(\"" + preqId + "\", {");
+        	        out.println("    label: \"" + preqId + "\",");
+        	        out.println("    x: " + xCoord + ",");
+        	        out.println("    y: " + yCoord + ",");
+        	        out.println("    size: 10,");
+        	        out.println("    color: \"#ff0000\"");
+        	        out.println("});");
+        	        
+        	        nodeLevels.put(preqId, preqLevel);
+        	        levelPositions.put(preqLevel, position + 1);
+        	    }
+
+        	    edges.putIfAbsent(courseId, new HashSet<>());
+        	    if (!edges.get(courseId).contains(preqId)) {
         	        edges.get(courseId).add(preqId);
-	        	   out.println("console.log(\'" + courseId + "\')\n");
-	        	   out.println("console.log(\'" + preqId + "\')\n");
-	        	   out.println("graph.addEdge(\"" + courseId + "\", \"" + preqId + "\", {");
-	        	   out.println("    size: 5,");
-	        	   out.println("    color: \"purple\"");
-	        	   out.println("});");
-	        	   yCoord += step;
-        	   }
-           }
+
+        	        out.println("graph.addEdge(\"" + courseId + "\", \"" + preqId + "\", {");
+        	        out.println("    size: 5,");
+        	        out.println("    color: \"purple\"");
+        	        out.println("});");
+        	    }
+        	}
             
            
             // Variables for positioning
