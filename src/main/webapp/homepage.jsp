@@ -222,13 +222,27 @@
             String dbpassword = "password";
             PreparedStatement preqPs = null;
             ResultSet preqRs = null;
+            PreparedStatement userCoursesPs = null;
+            ResultSet userCoursesRs = null;
             int xCoord = 0;
             int yCoord = 0;
             int step = 50; 
             
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(dburl, dbuname, dbpassword);
-
+			
+         	// Fetch user's completed courses
+            String userCoursesQuery = "SELECT courseID FROM usercourses WHERE studentID = ?";
+            userCoursesPs = con.prepareStatement(userCoursesQuery);
+            userCoursesPs.setString(1, (String)session.getAttribute("studentID"));
+            userCoursesRs = userCoursesPs.executeQuery();
+            
+            // Create a HashSet to store user's completed courses
+            HashSet<String> userCourses = new HashSet<>();
+            while (userCoursesRs.next()) {
+                userCourses.add(userCoursesRs.getString("courseID"));
+            }
+            
             System.out.println("selectedCourse" + selectedCourse);
             String preqQuery = 
             		
@@ -259,6 +273,9 @@
 
         	    int courseLevel = nodeLevels.getOrDefault(courseId, 0);
         	    int preqLevel = courseLevel + 1;
+        	    
+        	    String nodeColor = userCourses.contains(courseId) ? "\"#009900\"" : "\"#ff0000\"";
+        	    String preqColor = userCourses.contains(preqId) ? "\"#009900\"" : "\"#ff0000\"";
 
         	    if (found.add(courseId)) {
         	        int position = levelPositions.getOrDefault(courseLevel, 0);
@@ -270,7 +287,7 @@
         	        out.println("    x: " + xCoord + ",");
         	        out.println("    y: " + yCoord + ",");
         	        out.println("    size: 10,");
-        	        out.println("    color: \"#ff0000\"");
+        	        out.println("    color: " + nodeColor);
         	        out.println("});");
         	        
         	        levelPositions.put(courseLevel, position + 1);
@@ -286,7 +303,7 @@
         	        out.println("    x: " + xCoord + ",");
         	        out.println("    y: " + yCoord + ",");
         	        out.println("    size: 10,");
-        	        out.println("    color: \"#009900\"");
+        	        out.println("    color: " + preqColor);
         	        out.println("});");
         	        
         	        nodeLevels.put(preqId, preqLevel);
