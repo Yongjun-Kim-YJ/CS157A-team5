@@ -50,7 +50,7 @@
     <div class="bg-gray-100 h-64 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-4">
             <!-- Course List -->
-            <div class="w-1/4 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
+            <div class="w-1/4 max-h-10 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
                 <h2 class="block w-full text-xl font-bold mb-4">Available Courses</h2>
                 <input 
 				    id="searchbar" 
@@ -123,7 +123,7 @@
             </div>
 
             <!-- Description and Graph -->
-            <div class="w-3/4 border border-gray-300 p-4 rounded bg-white">
+            <div class="w-3/4 max-h-10 border border-gray-300 p-4 rounded bg-white">
                 <%
                     String selectedCourse = request.getParameter("selectedCourse");
                     if (selectedCourse != null) {
