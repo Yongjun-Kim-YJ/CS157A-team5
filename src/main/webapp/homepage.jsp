@@ -286,7 +286,7 @@
         	        out.println("    x: " + xCoord + ",");
         	        out.println("    y: " + yCoord + ",");
         	        out.println("    size: 10,");
-        	        out.println("    color: \"#ff0000\"");
+        	        out.println("    color: \"#009900\"");
         	        out.println("});");
         	        
         	        nodeLevels.put(preqId, preqLevel);
