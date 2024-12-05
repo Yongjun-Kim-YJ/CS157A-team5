@@ -34,25 +34,47 @@
 
     <!-- Welcome Section -->
     <div class="bg-gradient-to-r from-purple-600 to-blue-600 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20">
-            <div class="text-center">
-                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
-                   Welcome 
-                    <%
-                        String name = (String) session.getAttribute("name");
-                        out.println(name + "!");
-                    %>
-                </h1>
-            </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-10">
+        <div class="text-center">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
+                Welcome 
+                <%
+                    String name = (String) session.getAttribute("name");
+                    out.println(name + "!");
+                %>
+            </h1>
         </div>
     </div>
-
-    <div class="bg-gray-100 py-8">
+</div>
+    
+    <div class="bg-gray-100 h-64 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-4">
             <!-- Course List -->
-            <div class="w-1/4 h-96 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
-                <h2 class="text-xl font-bold mb-4">Available Courses</h2>
-                
+            <div class="w-1/4 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
+                <h2 class="block w-full text-xl font-bold mb-4">Available Courses</h2>
+                <input 
+				    id="searchbar" 
+				    onkeyup="search_course()" 
+				    type="text" 
+				    name="search" 
+				    placeholder="Search Courses" 
+				    class="
+				        block 
+				        mb-4 
+				        px-4 
+				        py-2 
+				        w-full
+				        border  
+				        border-gray-300  
+				        rounded-lg  
+				        focus:outline-none  
+				        focus:ring-2  
+				        focus:ring-blue-500  
+				        focus:border-blue-500  
+				        text-gray-700  
+				        placeholder-gray-400  
+				        shadow-sm
+				    ">
                 <%
                     Connection con = null;
                     PreparedStatement ps = null;
@@ -148,7 +170,7 @@
                 %>
                                 <h2 class="text-xl font-bold mb-4"><%= selectedCourse %></h2>
                                 <p><%= courseDescription %></p>
-                                <div id="container" style="width: 50%; height: 400px; background: white"></div>
+                                <div id="container" style="width: 100%; height: 1000px; background: white"></div>
                 <%
                             } else {
                 %>
@@ -180,8 +202,6 @@
         </div>
     </div>
 
-    <!-- Graph Container -->
-    <div id="container" style="width: 100%; height: 400px; background: white"></div>
 
     <!-- Script to generate the graph -->
     <script>
@@ -260,7 +280,6 @@
         	   }
            }
             
-           
            
             // Variables for positioning
             // int nodeCount = 0;
@@ -347,28 +366,27 @@
    // Add edges to the graph dynamically
 	  const sigmaInstance = new Sigma(graph, document.getElementById("container"));
 	  
-      let prevNode = 0;
       sigmaInstance.on("clickNode", (event) => {
     	  const nodeId = event.node;
-    	  if (nodeId !== prevNode) {
-    	  console.log("Mouse entered node:", nodeId);
-    	  // Example: Highlight the node
-    	  // Get the node object
-			const node = sigmaInstance.getGraph().getNodeAttributes(nodeId);
-			
-			if (node) {
-				node.color = 'red';
-				if (prevNode != 0) {
-					const cur_node = sigmaInstance.getGraph().getNodeAttributes(prevNode);
-					cur_node.color = 'lightgray';
-				}
-				prevNode = nodeId;
-		    	sigmaInstance.refresh();
-			} else {
-			  console.log("Node not found.");
-			}
-    	  }
+    	  console.log(nodeId);
+    	  window.location.href = "homepage.jsp?selectedCourse="+ nodeId;
     	});
+      
+      function search_course() {
+    	    const input = document.getElementById("searchbar");
+    	    const filter = input.value.toLowerCase();
+
+    	    const courses = document.querySelectorAll(".course");
+
+    	    courses.forEach(course => {
+    	        const buttonText = course.querySelector("button").textContent.toLowerCase();
+    	        if (buttonText.includes(filter)) {
+    	            course.style.display = "";
+    	        } else {
+    	            course.style.display = "none";
+    	        }
+    	    });
+    	}
     </script>
 </body>
 </html>
