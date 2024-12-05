@@ -425,7 +425,7 @@
     	}
       function genAISuggestions() {
     	    const input = document.getElementById("searchbar");
-    	    const api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=AIzaSyC5TLZVSD48WSaSnBk4th4owBymi-ShnrY";
+    	    const api_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=";
 			console.log(input.value);
     	    const payload = {
     	      contents: [
