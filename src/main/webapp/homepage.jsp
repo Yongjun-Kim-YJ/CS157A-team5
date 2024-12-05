@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ page session="true" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" session="true"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.util.*" %>
 <!DOCTYPE html>
@@ -19,6 +17,11 @@
     <nav class="bg-gray-800 p-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <span class="text-white text-lg font-bold">Course Prerequisite Guide</span>
+            <form action="gradProgress.jsp" method="get">
+                <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
+                    Graduation Progress
+                </button>
+            </form>
             <form action="courseSearch.jsp" method="get">
                 <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
                     Search and Add
