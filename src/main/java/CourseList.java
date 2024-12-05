@@ -37,19 +37,24 @@ public class CourseList extends HttpServlet {
 		SearchDao sDao = new SearchDao();
 		
 		String keyword = request.getParameter("keyword");
+		String area = request.getParameter("area");
+		
 		if (keyword != null && !keyword.isBlank()) {
 			keyword = keyword.trim();
 			request.setAttribute("keyword", keyword);
 			RequestDispatcher rd = request.getRequestDispatcher("searchResults.jsp");
 			rd.forward(request, response);
+		} else if (area != null && !area.isBlank()) {
+			request.setAttribute("area", area);
+			RequestDispatcher rd = request.getRequestDispatcher("categoryResults.jsp");
+			rd.forward(request, response);
 		} else {
-		
-		String addCourse = request.getParameter("addedCourse");
-		String student = request.getParameter("studentID");
-		sDao.addCourse(addCourse, student);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("courseSearch.jsp");
-		rd.forward(request, response);
+			String addCourse = request.getParameter("addedCourse");
+			String student = request.getParameter("studentID");
+			sDao.addCourse(addCourse, student);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("courseSearch.jsp");
+			rd.forward(request, response);
 		}
 	}
 

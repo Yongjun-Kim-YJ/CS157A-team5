@@ -36,11 +36,9 @@ public class SearchList extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		SearchDao sDao = new SearchDao();
 		
-		String allCourses = request.getParameter("allAddedCourses");
-		if (allCourses != null)
-			request.setAttribute("allAddedCourses", allCourses);
-		
 		String keyword = request.getParameter("keyword");
+		String area = request.getParameter("area");
+		
 		if (request.getParameter("goBack") != null) {
 			RequestDispatcher rd = request.getRequestDispatcher("courseSearch.jsp");
 			rd.forward(request, response);
@@ -49,15 +47,26 @@ public class SearchList extends HttpServlet {
 			request.setAttribute("keyword", keyword);
 			RequestDispatcher rd = request.getRequestDispatcher("searchResults.jsp");
 			rd.forward(request, response);
+		} else if (area != null && !area.isBlank()) {
+			request.setAttribute("area", area);
+			RequestDispatcher rd = request.getRequestDispatcher("categoryResults.jsp");
+			rd.forward(request, response);
 		} else {
 			String addCourse = request.getParameter("addedCourse");
 			String addCourseID = request.getParameter("studentID");
 			boolean updateAdd = sDao.addCourse(addCourse, addCourseID);
 			request.setAttribute("addedCourse", addCourse);
 			request.setAttribute("studentID", updateAdd + "");
-			request.setAttribute("keyword", request.getParameter("prevSearch"));
-			RequestDispatcher rd = request.getRequestDispatcher("searchResults.jsp");
-			rd.forward(request, response);
+			String searchType = request.getParameter("prevSearch");
+			if (searchType.length() < 2) {
+				request.setAttribute("area", searchType);
+				RequestDispatcher rd = request.getRequestDispatcher("categoryResults.jsp");
+				rd.forward(request, response);
+			} else {
+				request.setAttribute("keyword", request.getParameter("prevSearch"));
+				RequestDispatcher rd = request.getRequestDispatcher("searchResults.jsp");
+				rd.forward(request, response);
+			}
 		}
 	}
 
