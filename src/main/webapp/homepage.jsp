@@ -50,10 +50,10 @@
     </div>
 </div>
     
-    <div class="bg-gray-100 h-64 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-4">
+    <div class="bg-gray-100 h-screen py-8">
+        <div class="max-w-7xl h-full px-4 sm:px-6 lg:px-8 flex space-x-4">
             <!-- Course List -->
-            <div class="w-1/4 max-h-10 overflow-y-auto border border-gray-300 p-4 rounded bg-white">
+            <div class="w-1/4 h-80vh overflow-y-auto border border-gray-300 p-4 rounded bg-white">
                 <h2 class="block w-full text-xl font-bold mb-4">Available Courses</h2>
                 <div class="flex items-center">
     <div class="flex-1 mr-2 mb-4">
@@ -138,7 +138,7 @@
             </div>
 
             <!-- Description and Graph -->
-            <div class="w-3/4 max-h-10 border border-gray-300 p-4 rounded bg-white">
+            <div class="w-3/4 h-full overflow-y-auto border border-gray-300 p-4 rounded bg-white">
                 <%
                     String selectedCourse = request.getParameter("selectedCourse");
                     if (selectedCourse != null) {
@@ -185,7 +185,7 @@
                 %>
                                 <h2 class="text-xl font-bold mb-4"><%= selectedCourse %></h2>
                                 <p><%= courseDescription %></p>
-                                <div id="container" style="width: 100%; height: 1000px; background: white"></div>
+                                <div id="container" style="width: 100%; height: 74vh; background: white"></div>
                 <%
                             } else {
                 %>
@@ -234,13 +234,27 @@
             String dbpassword = "password";
             PreparedStatement preqPs = null;
             ResultSet preqRs = null;
+            PreparedStatement userCoursesPs = null;
+            ResultSet userCoursesRs = null;
             int xCoord = 0;
             int yCoord = 0;
             int step = 50; 
             
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection(dburl, dbuname, dbpassword);
-
+			
+         	// Fetch user's completed courses
+            String userCoursesQuery = "SELECT courseID FROM usercourses WHERE studentID = ?";
+            userCoursesPs = con.prepareStatement(userCoursesQuery);
+            userCoursesPs.setString(1, (String)session.getAttribute("studentID"));
+            userCoursesRs = userCoursesPs.executeQuery();
+            
+            // Create a HashSet to store user's completed courses
+            HashSet<String> userCourses = new HashSet<>();
+            while (userCoursesRs.next()) {
+                userCourses.add(userCoursesRs.getString("courseID"));
+            }
+            
             System.out.println("selectedCourse" + selectedCourse);
             String preqQuery = 
             		
@@ -271,6 +285,9 @@
 
         	    int courseLevel = nodeLevels.getOrDefault(courseId, 0);
         	    int preqLevel = courseLevel + 1;
+        	    
+        	    String nodeColor = userCourses.contains(courseId) ? "\"#009900\"" : "\"#ff0000\"";
+        	    String preqColor = userCourses.contains(preqId) ? "\"#009900\"" : "\"#ff0000\"";
 
         	    if (found.add(courseId)) {
         	        int position = levelPositions.getOrDefault(courseLevel, 0);
@@ -282,7 +299,7 @@
         	        out.println("    x: " + xCoord + ",");
         	        out.println("    y: " + yCoord + ",");
         	        out.println("    size: 10,");
-        	        out.println("    color: \"#ff0000\"");
+        	        out.println("    color: " + nodeColor);
         	        out.println("});");
         	        
         	        levelPositions.put(courseLevel, position + 1);
@@ -298,7 +315,7 @@
         	        out.println("    x: " + xCoord + ",");
         	        out.println("    y: " + yCoord + ",");
         	        out.println("    size: 10,");
-        	        out.println("    color: \"#ff0000\"");
+        	        out.println("    color: " + preqColor);
         	        out.println("});");
         	        
         	        nodeLevels.put(preqId, preqLevel);
