@@ -5,6 +5,7 @@ body {
 	padding: 0;
 	margin: 0;
 	font-size: 18px;
+	padding-bottom: 15px;
 }
 
 table {
@@ -22,19 +23,20 @@ th {
 
 td {
 	min-width: 100px;
-	margin: 10px;
+	padding: 5px 15px 5px 5px;
 }
 
 form {
 	width: 100%;
 }
 
+
 .titlehead {
 	background-color: MidnightBlue;
 	padding: 20px;
 	font-size: 20px;
 	color: white;
-	text-align: right;
+	text-align: center;
 }
 
 .homebutton {
@@ -43,19 +45,28 @@ form {
 	text-decoration: none;
 	padding: 10px;
 	text-align: center;
-	position: relative;
-	right: 15%;
 }
 
-form {
-	width: 100%;
+.majorcredits {
+	background-color: MidnightBlue;
+	font-size: 18px;
+	color: white;
+	text-align: center;
+	padding-top: 15px;
 }
 
 .searchbar {
 	background-color: MidnightBlue;
 	font-size: 20px;
 	color: white;
-	padding: 15px;
+	padding-left: 30px;
+	padding-right: 30px;
+	display: flex;
+	justify-content: space-around;
+}
+
+.dropdown {
+	text-align: right;
 }
 
 .searchline {
@@ -68,4 +79,20 @@ form {
 .tablehead {
 	font-style: italic;
 	color: LightSlateGray;
+}
+
+.addbtn {
+	padding: 10px;
+	background-color: LightBlue;
+}
+
+.backbtndiv {
+	padding: 10px;
+	text-align: center;
+}
+
+.backbtn {
+	padding: 10px;
+	background-color: CornflowerBlue;
+	color: white;
 }
