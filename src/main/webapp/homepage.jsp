@@ -27,6 +27,11 @@
                     Search and Add
                 </button>
             </form>
+            <form action="userCourses.jsp" method="get">
+                <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
+                    View Added Courses
+                </button>
+            </form>
             <form action="profile.jsp" method="get">
                 <button class="text-white px-4 py-2 bg-blue-500 rounded hover:bg-blue-600">
                     Profile

@@ -53,6 +53,7 @@ form {
 	color: white;
 	text-align: center;
 	padding-top: 15px;
+	padding-bottom: 10px;
 }
 
 .searchbar {
@@ -94,5 +95,16 @@ form {
 .backbtn {
 	padding: 10px;
 	background-color: CornflowerBlue;
+	color: white;
+}
+
+.completebtn {
+	padding: 10px;
+	background-color: DarkSeaGreen;
+}
+
+.deletebtn {
+	padding: 10px;
+	background-color: FireBrick;
 	color: white;
 }
