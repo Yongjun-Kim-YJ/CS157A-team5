@@ -16,27 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `prerequisites`
+-- Table structure for table `completedcourses`
 --
 
-DROP TABLE IF EXISTS `prerequisites`;
+DROP TABLE IF EXISTS `completedcourses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `prerequisites` (
+CREATE TABLE `completedcourses` (
+  `studentID` int NOT NULL,
   `courseID` varchar(15) NOT NULL,
-  `prerequisiteID` varchar(15) NOT NULL,
-  PRIMARY KEY (`courseID`,`prerequisiteID`)
+  PRIMARY KEY (`studentID`,`courseID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `prerequisites`
+-- Dumping data for table `completedcourses`
 --
 
-LOCK TABLES `prerequisites` WRITE;
-/*!40000 ALTER TABLE `prerequisites` DISABLE KEYS */;
-INSERT INTO `prerequisites` VALUES ('CS116A','CS146'),('CS116B','CS116A'),('CS122','CS146'),('CS123A','CS46B'),('CS123B','CS123A'),('CS131','CS46B'),('CS133','CS146'),('CS134','CS146'),('CS134','CS151'),('CS136','CS146'),('CS144','CS46B'),('CS146','CS46B'),('CS147','CS47'),('CS149','CS146'),('CS149','CS47'),('CS151','CS46B'),('CS152','CS151'),('CS153','CS146'),('CS153','CS154'),('CS153','CS47'),('CS154','CS46B'),('CS155','CS146'),('CS156','CS146'),('CS157A','CS146'),('CS157B','CS157A'),('CS157C','CS157A'),('CS158A','CS146'),('CS158A','CS47'),('CS158B','CS158A'),('CS159','CS146'),('CS160','CS100W'),('CS160','CS146'),('CS160','CS151'),('CS161','CS160'),('CS166','CS146'),('CS166','CS47'),('CS168','CS166'),('CS171','CS146'),('CS174','CS46B'),('CS175','CS46A'),('CS175','CS47'),('CS176','CS146'),('CS46B','CS46A'),('CS47','CS46B');
-/*!40000 ALTER TABLE `prerequisites` ENABLE KEYS */;
+LOCK TABLES `completedcourses` WRITE;
+/*!40000 ALTER TABLE `completedcourses` DISABLE KEYS */;
+INSERT INTO `completedcourses` VALUES (777,'BIOL10'),(777,'CS100W'),(777,'MUSC10C');
+/*!40000 ALTER TABLE `completedcourses` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05 22:09:44
+-- Dump completed on 2024-12-05 22:09:43

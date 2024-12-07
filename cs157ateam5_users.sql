@@ -38,7 +38,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (777,'Dazai','dazai@email.com','666','CS'),(5555,'Chuuya','hat@pm.jp','Dazai!!!','CS'),(6666,'Akugatawa','chops@pm.jp','Dazai#1Fan!',''),(8888,'Mori','elisefan@pm.jp','Elise#1Fan','');
+INSERT INTO `users` VALUES (777,'David','david@email.com','666','CS'),(999,'Julia','julia@email.com','123','CS'),(5555,'Charlie','charlie@email.com','5555','CS'),(6666,'Arthur','arthur@email.com','7777','ME'),(8888,'Mandy','mandy@email.com','9999','EE');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-02 12:19:44
+-- Dump completed on 2024-12-05 22:09:43

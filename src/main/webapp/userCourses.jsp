@@ -4,11 +4,11 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Search Results</title>
+	<title>Selected Courses</title>
 	<link rel="stylesheet" href="searchstyle.css">
 </head>
 <body>
-	<form action="SearchList" method="post">
+	<form action="UserCourseList" method="post">
 	<nav class="titlehead">
 		<a href="homepage.jsp" class="homebutton">Course Prerequisite Guide Home</a>
 	</nav>
@@ -18,27 +18,6 @@
 		String majorCredits = (String)session.getAttribute("majorCredits");
 		out.print(" " + majorName + " is " + majorCredits + " credits");%>
 	</div>
-	<nav class="searchbar">
-		<p>
-			Search for course:
-			<input type="text" name="keyword" placeholder="keyword">
-			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("area")%>">
-			<input type="submit" value="&#128269">
-		</p>
-		<p>
-			Search by GE Core area:
-			<select id="area" name="area">
-				<option value="">Select area</option>
-				<option value="A">A</option>
-				<option value="B">B</option>
-				<option value="C">C</option>
-				<option value="D">D</option>
-				<option value="E">E</option>
-				<option value="F">F</option>
-			</select>
-			<input type="submit" value="&#128269">
-		</p>
-	</nav>
 		<table>
 			<%
 			String dburl="jdbc:mysql://localhost:3306/cs157ateam5";
@@ -54,20 +33,33 @@
 				while (results.next()) {
 					userCourses = userCourses + results.getString("courseID");
 				}
-				String area = (String)request.getAttribute("area");
-				con = DriverManager.getConnection(dburl + "?autoReconnect=true&useSSL=false", dbuname, dbpassword);
-				sql = "SELECT * FROM ge WHERE geArea LIKE ?";
-				ps = con.prepareStatement(sql);
-				ps.setString(1, "%" + area + "%");
-				results = ps.executeQuery();
-				out.print("<p class=\"searchline\">Courses in GE core category " + area + "</p>");
-				if (results.isBeforeFirst()) {
-					out.print("<tr class=\"tablehead\"><td>Course ID</td><td>Course Name</td><td>Credits</td><td>Description</td><td>Prerequisites</td><td>GE Area</td></tr>");
+				if (userCourses.isBlank()) {
+					out.print("Please add courses first!");
 				} else {
-					out.print("<p class=\"searchline\">No courses found for \"" + area + "\"</p>");
-				}
+				sql = "SELECT courseID FROM completedcourses WHERE studentID = ?";
+				ps = con.prepareStatement(sql);
+				ps.setString(1, (String)session.getAttribute("studentID"));
+				results = ps.executeQuery();
+				String completedCourses = "";
 				while (results.next()) {
+					completedCourses = completedCourses + results.getString("courseID");
+				}
+				sql = "SELECT * FROM courses";
+				ps = con.prepareStatement(sql);
+				results = ps.executeQuery();
+				%>
+					<tr class="tablehead">
+						<td>Course ID</td>
+						<td>Course Name</td>
+						<td>Credits</td>
+						<td>Description</td>
+						<td>Prerequisites</td>
+					</tr>
+				<%
+				while (results.next()) {
+					String[] nextCourse = {results.getString(1), results.getString(2), results.getInt(3) + "", results.getString(4)};
 					String course = results.getString(1);
+					if (userCourses.contains(course)) {
 					out.print("<tr>" + "<td>" + course + "</td><td>" + results.getString(2) + "</td><td>"
 						+ results.getInt(3) + "</td><td>" + results.getString(4) + "</td>");
 					String courseID = (String)request.getAttribute("addedCourse");
@@ -85,21 +77,30 @@
 						}
 						out.print("</td>");
 					}
-					out.print("<td>" + results.getString(5) + "</td>");
-					if (userCourses.contains(course)) {
-						out.print("<td>Added!</td></tr>");
+					if (completedCourses.contains(course)) {
+						out.print("<td>Completed!</td>");
 					} else {
 					%>
 						<td>
-							<form action="SearchList" method="post">
-							<input type="submit" value="Add course!">
-							<input type="hidden" name="addedCourse" value="<%=course%>">
-							<input type="hidden" name="studentID" value="<%=(String)session.getAttribute("studentID") %>">
-							<input type="hidden" name="prevSearch" value="<%=area%>">
+							<form action="UserCourseList" method="post">
+							<input class="completebtn" type="submit" value="Complete!">
+							<input type="hidden" name="completedCourse" value="<%=course%>">
+							<input type="hidden" name="studentID" value="<%= session.getAttribute("studentID") %>">
+							</form>
+						</td>
+						<%
+					}
+					%>
+						<td>
+							<form action="UserCourseList" method="post">
+							<input class="deletebtn" type="submit" value="Delete!">
+							<input type="hidden" name="deletedCourse" value="<%=course%>">
+							<input type="hidden" name="studentID" value="<%= session.getAttribute("studentID") %>">
 							</form>
 						</td></tr>
 						<%
-					}
+				}
+				}
 				}
 				results.close();
 				ps.close();
@@ -109,12 +110,6 @@
 			}
 			%>
 		</table>
-		<div class="backbtn">
-		<form action="SearchList" method="post">
-			<input type="submit" name="goBack" value="New search in all courses">
-			<input type="hidden" name="prevSearch" value="<%=(String)request.getAttribute("area")%>">
-		</form>
-		</div>
 	</form>
 </body>
 </html>
