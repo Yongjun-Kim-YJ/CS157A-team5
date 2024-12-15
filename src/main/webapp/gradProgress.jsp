@@ -36,6 +36,7 @@
             <%
                 Connection con = null;
                 PreparedStatement ps = null;
+                PreparedStatement insertPs = null;
                 ResultSet rs = null;
                 int totalCredits = 0;
                 String userID = (String) session.getAttribute("studentID");
@@ -72,25 +73,13 @@
                         } else {
                             out.println("<p>No courses marked as completed.</p>");
                         }
-/*                         // Interested Courses
-                        String query2 = "SELECT c.courseID, c.credits FROM `Interested Courses` i " +
-                                        "JOIN `Courses` c ON i.courseID = c.courseID WHERE i.studentID = ?";
-                        ps = con.prepareStatement(query2);
-                        ps.setString(1, userID);
-                        rs = ps.executeQuery();
 
-                        out.println("<h2 class='text-2xl font-bold mt-8 mb-4'>Interested Courses</h2>");
-                        if (rs.next()) {
-                            out.println("<ul class='list-disc ml-8'>");
-                            do {
-                                String courseID = rs.getString("courseID");
-                                int credits = rs.getInt("credits");
-                                out.println("<li class='mb-2'>Course: " + courseID + " | Credits: " + credits + "</li>");
-                            } while (rs.next());
-                            out.println("</ul>");
-                        } else {
-                            out.println("<p>No courses marked as interested.</p>");
-                        } */
+                        // Update creditProgress table
+                        String insertQuery = "REPLACE INTO creditProgress (studentID, totalCredits) VALUES (?, ?)";
+                        insertPs = con.prepareStatement(insertQuery);
+                        insertPs.setString(1, userID);
+                        insertPs.setInt(2, totalCredits);
+                        insertPs.executeUpdate();
 
                         // Major courses
                         String query3 = "SELECT c.courseID, c.courseName, " +
@@ -127,6 +116,7 @@
                         try {
                             if (rs != null) rs.close();
                             if (ps != null) ps.close();
+                            if (insertPs != null) insertPs.close();
                             if (con != null) con.close();
                         } catch (SQLException ex) {
                             ex.printStackTrace();
