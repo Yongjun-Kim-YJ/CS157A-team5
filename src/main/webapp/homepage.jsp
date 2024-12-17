@@ -143,7 +143,7 @@
             </div>
 
             <!-- Description and Graph -->
-            <div class="w-3/4 h-full overflow-y-auto border border-gray-300 p-4 rounded bg-white">
+            <div class="w-3/4 border border-gray-300 p-4 rounded bg-white flex flex-col">
                 <%
                     String selectedCourse = request.getParameter("selectedCourse");
                     if (selectedCourse != null) {
@@ -205,7 +205,7 @@
                                 <h2 class="text-xl font-bold mb-4"><%= selectedCourse %></h2>
                                 <p><%= courseDescription %></p>
                                 <p><strong>Available Semesters:</strong> <%= semesters.length() > 0 ? semesters.toString() : "None" %></p>
-                                <div id="container" style="width: 100%; height: 74vh; background: white"></div>
+                                <div id="container" style="width: 100%; height: 100%; background: white"></div>
                 <%
                             } else {
                 %>
@@ -437,8 +437,36 @@
   	]; */
       
    // Add edges to the graph dynamically
-	  const sigmaInstance = new Sigma(graph, document.getElementById("container"));
+	  const sigmaInstance = new Sigma(graph, document.getElementById("container"),{
+		  minCameraRatio: 1.1,
+		  maxCameraRatio: 1.1,
+		  allowWheel: false
+	  });
+  	
+  	// Fix graph's position
+  	const camera = sigmaInstance.getCamera();
+
+ 	const minX = 0.5;
+ 	const maxX = 0.5;
+ 	const minY = 0.5;
+ 	const maxY = 0.5;
+
+	camera.on("updated", () => {
+   		const state = camera.getState();
+   		let { x, y, angle, ratio } = state;
+
+   		if (x < minX) x = minX;
+   		if (x > maxX) x = maxX;
+   		if (y < minY) y = minY;
+   		if (y > maxY) y = maxY;
+
+   		if (x !== state.x || y !== state.y) {
+     		camera.setState({ x, y, angle, ratio });
+   		}
+ 	});
+
 	  
+	
       sigmaInstance.on("clickNode", (event) => {
     	  const nodeId = event.node;
     	  console.log(nodeId);
@@ -527,6 +555,11 @@
     	      });
 			
     	}
+      
+      //Scroll to the bottom when click the course
+      window.addEventListener("load", function() {
+    	    window.scrollTo(0, document.body.scrollHeight);
+    	  });
     </script>
 </body>
 </html>
