@@ -151,6 +151,8 @@
                         ResultSet detailRs = null;
                         PreparedStatement preqPs = null;
                         ResultSet preqRs = null;
+                        PreparedStatement semesterPs = null;
+                        ResultSet semesterRs = null;
                         try {
                             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs157ateam5", "root", "password");
 
@@ -174,6 +176,18 @@
                             	    "FROM CourseGraph;";
                            preqPs = con.prepareStatement(preqQuery);
                            
+                           String semesterQuery = "SELECT semester FROM semesters WHERE courseID=?";
+                           semesterPs = con.prepareStatement(semesterQuery);
+                           semesterPs.setString(1, selectedCourse);
+                           semesterRs = semesterPs.executeQuery();
+                           StringBuilder semesters = new StringBuilder();
+
+                           while (semesterRs.next()) {
+                               if (semesters.length() > 0) {
+                                   semesters.append(", ");
+                               }
+                               semesters.append(semesterRs.getString("semester"));
+                           }
                            ArrayList<ArrayList<String>> adjList = new ArrayList<>();
                            preqRs = preqPs.executeQuery();
                            while (preqRs.next()) {
@@ -190,7 +204,8 @@
                 %>
                                 <h2 class="text-xl font-bold mb-4"><%= selectedCourse %></h2>
                                 <p><%= courseDescription %></p>
-                                <div id="container" style="width:100%; height:100%; background: white"></div>
+                                <p><strong>Available Semesters:</strong> <%= semesters.length() > 0 ? semesters.toString() : "None" %></p>
+                                <div id="container" style="width: 100%; height: 74vh; background: white"></div>
                 <%
                             } else {
                 %>
