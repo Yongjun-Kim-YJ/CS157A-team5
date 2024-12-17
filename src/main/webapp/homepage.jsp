@@ -205,7 +205,7 @@
                                 <h2 class="text-xl font-bold mb-4"><%= selectedCourse %></h2>
                                 <p><%= courseDescription %></p>
                                 <p><strong>Available Semesters:</strong> <%= semesters.length() > 0 ? semesters.toString() : "None" %></p>
-                                <div id="container" style="width: 100%; height: 74vh; background: white"></div>
+                                <div id="container" style="width: 100%; height: 100%; background: white"></div>
                 <%
                             } else {
                 %>
