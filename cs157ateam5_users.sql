@@ -38,7 +38,23 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (777,'David','david@email.com','666','CS'),(999,'Julia','julia@email.com','123','CS'),(5555,'Charlie','charlie@email.com','5555','CS'),(6666,'Arthur','arthur@email.com','7777','ME'),(8888,'Mandy','mandy@email.com','9999','EE');
+INSERT INTO `users` (`studentID`, `name`, `email`, `password`, `major_id`) VALUES
+(12, 'ss', 'ss@gmail.com', '012', 'CS'),
+(777, 'Dazai', 'dazai@email.com', '120', 'CS'),
+(5555, 'Chuuya', 'hat@pm.jp', 'Dazai!!!', 'CS'),
+(6666, 'Akugatawa', 'chops@pm.jp', 'Dazai#1Fan!', 'CS'),
+(8888, 'Mori', 'elisefan@pm.jp', 'Elise#1Fan', 'CS'),
+(12345, 'user1', 'user1@gmail.com', '12345', 'CS'),
+(23456, 'user2', 'user2@gmail.com', '23456', 'CS'),
+(34567, 'user3', 'user3@gmail.com', '34567', 'CS'),
+(45678, 'user4', 'user4@gmail.com', '45678', 'CS'),
+(54321, 'user7', 'user7@gmail.com', '54321', 'CS'),
+(56789, 'user5', 'user5@gmail.com', '56789', 'CS'),
+(65432, 'user8', 'user8@gmail.com', '65432', 'CS'),
+(67890, 'user6', 'user6@gmail.com', '67890', 'CS'),
+(76543, 'user9', 'user9@gmail.com', '76543', 'CS'),
+(15258126, 'Yongjun', 'abc@gmail.com', '123456', 'CS');
+
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
