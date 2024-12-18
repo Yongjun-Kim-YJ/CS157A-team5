@@ -36,7 +36,7 @@ CREATE TABLE `majors` (
 
 LOCK TABLES `majors` WRITE;
 /*!40000 ALTER TABLE `majors` DISABLE KEYS */;
-INSERT INTO `majors` VALUES ('AE','Aerospace Engineering',120),('ANI','Animation & Illustration',120),('CE','Computer Engineering',123),('CS','Computer Science',120),('DANC','Dance',120),('EE','Electrial Engineering',123),('ME','Mechanical Engineering',125),('NURS','Nursing',120),('PSYC','Psychology',120),('SE','Software Engineering',123);
+INSERT INTO `majors` VALUES ('AE','Aerospace Engineering',120),('ANI','Animation & Illustration',120),('BME','Biomedical Engineering',123),('CE','Civil Engineering',120),('CMPE','Computer Engineering',123),('CS','Computer Science',120),('DANC','Dance',120),('ECON','Economics',120),('EE','Electrial Engineering',123),('JOUR','Journalism',120),('ME','Mechanical Engineering',125),('NURS','Nursing',120),('PHIL','Philosophy',120),('PR','Public Relations',120),('PSYC','Psychology',120),('SE','Software Engineering',123);
 /*!40000 ALTER TABLE `majors` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -49,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05 22:09:44
+-- Dump completed on 2024-12-17 22:06:02
