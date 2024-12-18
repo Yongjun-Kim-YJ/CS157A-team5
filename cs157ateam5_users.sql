@@ -38,7 +38,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (777,'David','david@email.com','666','CS'),(999,'Julia','julia@email.com','123','CS'),(5555,'Charlie','charlie@email.com','5555','CS'),(6666,'Arthur','arthur@email.com','7777','ME'),(8888,'Mandy','mandy@email.com','9999','EE');
+INSERT INTO `users` VALUES (20,'Jane','jane@email.com','4499','CS'),(444,'Daniel','daniel@email.com','aa77','CS'),(777,'David','david@email.com','666','CS'),(909,'Bob','bob@email.com','7787','CS'),(999,'Julia','julia@email.com','123','CS'),(1122,'Jean','jean@email.com','1234','CS'),(1209,'Tim','tim@email.com','29958','CS'),(2101,'Kate','kate@email.com','33hh','CS'),(2211,'William','will@email.com','77#m','CS'),(2222,'John','john@email.com','wwww','CS'),(3490,'Lawrence','lawrence@email.com','5692','CS'),(5555,'Charlie','charlie@email.com','5555','CS'),(5982,'Amber','amber@email.com','4982','CS'),(6029,'Fiona','fiona@email.com','54ss','CS'),(6666,'Arthur','arthur@email.com','7777','ME'),(8888,'Mandy','mandy@email.com','9999','EE');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-12-05 22:09:43
+-- Dump completed on 2024-12-17 22:06:02
